@@ -1378,7 +1378,12 @@ class ReactImageLightbox extends Component {
         images.push(
           <div
             className={`${imageClass} ril__image ril__imageDiscourager`}
-            onDoubleClick={this.handleImageDoubleClick}
+            onClick={
+              this.props.oneClickZoom ? this.handleImageDoubleClick : null
+            }
+            onDoubleClick={
+              !this.props.oneClickZoom ? this.handleImageDoubleClick : null
+            }
             onWheel={this.handleImageMouseWheel}
             style={imageStyle}
             key={imageSrc + keyEndings[srcType]}
@@ -1391,7 +1396,12 @@ class ReactImageLightbox extends Component {
           <img
             {...(imageCrossOrigin ? { crossOrigin: imageCrossOrigin } : {})}
             className={`${imageClass} ril__image`}
-            onDoubleClick={this.handleImageDoubleClick}
+            onClick={
+              this.props.oneClickZoom ? this.handleImageDoubleClick : null
+            }
+            onDoubleClick={
+              !this.props.oneClickZoom ? this.handleImageDoubleClick : null
+            }
             onWheel={this.handleImageMouseWheel}
             onDragStart={e => e.preventDefault()}
             style={imageStyle}
@@ -1533,7 +1543,7 @@ class ReactImageLightbox extends Component {
                   </li>
                 ))}
 
-              {enableZoom && (
+              {enableZoom && !this.props.hideZoomButtons && (
                 <li className="ril-toolbar__item ril__toolbarItem">
                   <button // Lightbox zoom in button
                     type="button"
@@ -1561,7 +1571,7 @@ class ReactImageLightbox extends Component {
                 </li>
               )}
 
-              {enableZoom && (
+              {enableZoom && !this.props.hideZoomButtons && (
                 <li className="ril-toolbar__item ril__toolbarItem">
                   <button // Lightbox zoom out button
                     type="button"
@@ -1744,8 +1754,14 @@ ReactImageLightbox.propTypes = {
   // When true, clicks outside of the image close the lightbox
   clickOutsideToClose: PropTypes.bool,
 
+  // Allows the toggling of the zoom buttons
+  hideZoomButtons: PropTypes.bool,
+
   // Set to false to disable zoom functionality and hide zoom buttons
   enableZoom: PropTypes.bool,
+
+  // Sets zoom trigger to be a single click rather than two
+  oneClickZoom: PropTypes.bool,
 
   // Override props set on react-modal (https://github.com/reactjs/react-modal)
   reactModalProps: PropTypes.shape({}),
@@ -1772,6 +1788,7 @@ ReactImageLightbox.defaultProps = {
   closeLabel: 'Close lightbox',
   discourageDownloads: false,
   enableZoom: true,
+  hideZoomButtons: false,
   imagePadding: 10,
   imageCrossOrigin: null,
   keyRepeatKeyupBonus: 40,
@@ -1785,6 +1802,7 @@ ReactImageLightbox.defaultProps = {
   onImageLoad: () => {},
   onMoveNextRequest: () => {},
   onMovePrevRequest: () => {},
+  oneClickZoom: false,
   prevLabel: 'Previous image',
   prevSrc: null,
   prevSrcThumbnail: null,

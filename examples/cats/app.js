@@ -146,10 +146,12 @@ class App extends Component {
           prevSrcThumbnail={
             thumbs[(this.state.index + images.length - 1) % images.length]
           }
+          hideZoomButtons
           onCloseRequest={this.closeLightbox}
           onMovePrevRequest={this.movePrev}
           onMoveNextRequest={this.moveNext}
           onImageLoadError={App.onImageLoadError}
+          oneClickZoom
           imageTitle={titles[this.state.index]}
           imageCaption={captions[this.state.index]}
         />
